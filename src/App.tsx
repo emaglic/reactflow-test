@@ -14,30 +14,66 @@ import initialEdges from "./utils/initialEdges";
 import initialNodes from "./utils/initialNodes";
 import { CustomNode } from "./components/Chart/components/CustomNode";
 
-const theme = createTheme({
-  palette: {
-    //mode: "light", // Set this to "light" or "dark" to force the theme
-  },
-});
-
 const nodeTypes = {
   customNode: CustomNode,
 };
 
 function App() {
+  const [darkMode, setDarkMode] = useState(false);
+
+  const theme = createTheme({
+    palette: {
+      mode: darkMode ? "dark" : "light",
+    },
+  });
+
+  const handleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
   const styles = Styles();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const handleSidebarOpen = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
   const onConnect = useCallback((connection: Connection) => {
     const edge = { ...connection, id: uuidv4() };
     setEdges((prevEdges) => addEdge(edge, prevEdges));
   }, []);
+
+  const handleEdgesChange = useCallback(
+    (changes) => {
+      onEdgesChange(changes);
+      localStorage.setItem("edges", JSON.stringify(edges));
+    },
+    [edges, onEdgesChange]
+  );
+
+  const handleNodesChange = useCallback(
+    (changes) => {
+      onNodesChange(changes);
+      localStorage.setItem("nodes", JSON.stringify(nodes));
+    },
+    [nodes, onNodesChange]
+  );
+
+  const handleClearStorage = () => {
+    localStorage.setItem("nodes", JSON.stringify([]));
+    localStorage.setItem("edges", JSON.stringify([]));
+    setNodes(initialNodes);
+    setEdges(initialEdges);
+  };
+
+  useEffect(() => {
+    const storedNodes = localStorage.getItem("nodes");
+    const storedEdges = localStorage.getItem("edges");
+    setNodes(storedNodes ? JSON.parse(storedNodes) : initialNodes);
+    setEdges(storedEdges ? JSON.parse(storedEdges) : initialEdges);
+  }, [setNodes, setEdges]);
 
   return (
     <>
@@ -48,6 +84,9 @@ function App() {
             <Navbar
               sidebarOpen={sidebarOpen}
               handleSidebarOpen={handleSidebarOpen}
+              handleDarkMode={handleDarkMode}
+              darkMode={darkMode}
+              handleClearStorage={handleClearStorage}
             />
             <Box sx={styles.body}>
               <Box sx={styles.chart}>
@@ -55,8 +94,8 @@ function App() {
                   nodes={nodes}
                   edges={edges}
                   elementsSelectable={true}
-                  onNodesChange={onNodesChange}
-                  onEdgesChange={onEdgesChange}
+                  onNodesChange={handleNodesChange}
+                  onEdgesChange={handleEdgesChange}
                   onConnect={onConnect}
                   nodeTypes={nodeTypes}
                 />

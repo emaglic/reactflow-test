@@ -8,11 +8,12 @@ type CustomProps = {
   label: string;
   notes: string;
   bgColor: string;
+  color: string;
 };
 
 const CustomNode = ({
   selected,
-  data: { notes, bgColor = "red", label },
+  data: { notes, bgColor = "#fff", color = "#000", label },
 }: NodeProps<CustomProps>) => {
   const theme = useTheme();
   const styles = Styles(theme);
@@ -23,8 +24,11 @@ const CustomNode = ({
         ...styles.container,
         border: selected
           ? `3px solid ${theme.palette.primary.main}`
-          : "1px solid #000",
+          : `1px solid  ${theme.palette.getContrastText(
+              theme.palette.background.default
+            )}`,
         backgroundColor: bgColor,
+        color: color,
       }}
     >
       <Typography>{label}</Typography>

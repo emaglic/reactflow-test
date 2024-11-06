@@ -3,7 +3,6 @@ import { Theme } from "@mui/system/createTheme";
 
 const Styles = (theme: Theme, selected) => ({
   container: {
-    //width: "100%",
     display: "flex",
     flexDirection: "column",
     gap: "0.5rem",
@@ -15,7 +14,7 @@ const Styles = (theme: Theme, selected) => ({
   header: {
     color: selected
       ? theme.palette.getContrastText(theme.palette.primary.main)
-      : theme.palette.getContrastText(theme.palette.action.disabledBackground),
+      : theme.palette.getContrastText(theme.palette.background.default),
     backgroundColor: selected
       ? theme.palette.primary.main
       : theme.palette.action.disabledBackground,
@@ -28,14 +27,24 @@ const Styles = (theme: Theme, selected) => ({
   textField: {
     marginBottom: "1rem",
   },
-  deleteButton: {
+  cancelButton: {
+    marginLeft: "auto",
+  },
+  saveButton: {
     marginLeft: "auto",
   },
   controls: {
     display: "flex",
     flexDirection: "row",
+    justifyContent: "space-between",
     gap: "0.5rem",
     marginBottom: "0.5rem",
+  },
+  controlsRight: {
+    display: "flex",
+    flexDirection: "row",
+    marginLeft: "auto",
+    gap: "0.5rem",
   },
   position: {
     display: "flex",

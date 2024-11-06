@@ -3,7 +3,6 @@ import { Theme } from "@mui/system/createTheme";
 const Styles = (theme: Theme, open) => ({
   container: {
     height: "100%",
-    overflow: "hidden",
     position: "relative",
     overflow: "hidden",
     display: "grid",
@@ -16,7 +15,7 @@ const Styles = (theme: Theme, open) => ({
           xl: "25vw",
         }
       : 0,
-    maxWidth: "500px",
+    maxWidth: { md: "500px" },
   },
   tabContent: {
     height: "100%",
