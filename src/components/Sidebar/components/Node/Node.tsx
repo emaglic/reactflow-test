@@ -17,24 +17,27 @@ import { useReactFlow } from "reactflow";
 import { useForm, Controller } from "react-hook-form";
 import { ColorPicker } from "../ColorPicker";
 import { EmojiPicker } from "../EmojiPicker";
+import { Props, ColorPickerType, FormData } from "./types";
 
-const Node = ({ node, handleTabChange }) => {
+const Node = ({ node, handleTabChange }: Props) => {
   const theme = useTheme();
   const styles = Styles(theme, node.selected);
   const { setNodes } = useReactFlow();
   const [editMode, setEditMode] = useState(node.id ? false : true);
   const [colorPickerOpen, setColorPickerOpen] = useState(false);
-  const [colorPickerType, setColorPickerType] = useState(undefined);
+  const [colorPickerType, setColorPickerType] = useState<
+    ColorPickerType | undefined
+  >(undefined);
   const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
 
-  const defaultFormValues = {
+  const defaultFormValues: FormData = {
     label: node.data.label,
     notes: node.data.notes || "",
     emoji: node.data.emoji,
     bgColor: node.data.bgColor,
     color: node.data.color,
-    xPos: node.position.x,
-    yPos: node.position.y,
+    xPos: node.position.x.toString(),
+    yPos: node.position.y.toString(),
   };
 
   const {
@@ -49,12 +52,14 @@ const Node = ({ node, handleTabChange }) => {
     defaultValues: defaultFormValues,
   });
 
-  const handleColorPickerOpen = (whichPicker) => {
-    setColorPickerType(whichPicker);
-    setColorPickerOpen(true);
+  const handleColorPickerOpen = (pickerProp: ColorPickerType) => {
+    if (editMode) {
+      setColorPickerType(pickerProp);
+      setColorPickerOpen(true);
+    }
   };
 
-  const handleSelectEmoji = (imageUrl) => {
+  const handleSelectEmoji = (imageUrl: string) => {
     setValue("emoji", imageUrl, {
       shouldValidate: true,
       shouldDirty: true,
@@ -62,6 +67,7 @@ const Node = ({ node, handleTabChange }) => {
   };
 
   const handleColorSelect = (color: string) => {
+    if (!colorPickerType) return;
     setValue(colorPickerType, color, {
       shouldValidate: true,
       shouldDirty: true,
@@ -88,7 +94,7 @@ const Node = ({ node, handleTabChange }) => {
     xPos,
     yPos,
     emoji,
-  }) => {
+  }: FormData) => {
     return {
       ...node,
       id: node.id || uuidv4(),
@@ -98,7 +104,7 @@ const Node = ({ node, handleTabChange }) => {
     };
   };
 
-  const onUpdateNode = (formData) => {
+  const onUpdateNode = (formData: FormData) => {
     setNodes((prevNodes) => {
       return prevNodes.map((prevNode) => {
         return prevNode.id === node.id ? constructNodeData(formData) : prevNode;
@@ -106,19 +112,19 @@ const Node = ({ node, handleTabChange }) => {
     });
   };
 
-  const onCreateNode = (formData) => {
+  const onCreateNode = (formData: FormData) => {
     setNodes((prevNodes) => {
       return [constructNodeData(formData), ...prevNodes];
     });
   };
 
   // Will only submit if no errors
-  const onSubmit = (formProps) => {
+  const onSubmit = (formData: FormData) => {
     if (node.id) {
-      onUpdateNode(formProps);
+      onUpdateNode(formData);
       setEditMode(false);
     } else {
-      onCreateNode(formProps);
+      onCreateNode(formData);
     }
     if (handleTabChange) handleTabChange(0);
   };
@@ -226,7 +232,7 @@ const Node = ({ node, handleTabChange }) => {
                           position="end"
                           sx={{ cursor: editMode ? "pointer" : "default" }}
                           onClick={() => {
-                            if (editMode) handleColorPickerOpen("color");
+                            handleColorPickerOpen("color");
                           }}
                         >
                           {getValues("color") ? (
@@ -272,7 +278,7 @@ const Node = ({ node, handleTabChange }) => {
                           position="end"
                           sx={{ cursor: editMode ? "pointer" : "default" }}
                           onClick={() => {
-                            if (editMode) handleColorPickerOpen("bgColor");
+                            handleColorPickerOpen("bgColor");
                           }}
                         >
                           {getValues("bgColor") ? (

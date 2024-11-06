@@ -11,15 +11,17 @@ import {
 import "react-color-palette/css";
 import { useTheme } from "@mui/material/styles";
 import Styles from "./styles";
-import EmojiPickerReact from "emoji-picker-react";
+import EmojiPickerReact, { EmojiClickData } from "emoji-picker-react";
+import { Props } from "./types";
 
-const EmojiPicker = ({ open, onClose, onSelectIcon }) => {
+const EmojiPicker = ({ open, onClose, onSelectIcon }: Props) => {
   const theme = useTheme();
   const styles = Styles(theme);
 
-  const [emoji, setEmoji] = useState<EmojiData | undefined>(undefined);
+  const [emoji, setEmoji] = useState<EmojiClickData | undefined>(undefined);
 
   const handleSelect = () => {
+    if (!emoji) return;
     onSelectIcon(emoji.imageUrl);
     onClose();
   };

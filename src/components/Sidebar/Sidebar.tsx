@@ -1,26 +1,31 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useTheme } from "@mui/material/styles";
 import { Box, Drawer, Tabs, Tab, Divider, Typography } from "@mui/material";
 import getNewNode from "../../utils/getNewNode";
 import { NodeList } from "./components/NodeList";
 import { Node } from "./components/Node";
 import Styles from "./styles";
+import { Props } from "./types";
+import { Node as NodeType } from "reactflow";
 
-const Sidebar = ({ open, nodes }) => {
+const Sidebar = ({ open, nodes }: Props) => {
   const theme = useTheme();
   const styles = Styles(theme, open);
   const parentRef = useRef(null);
 
   const [selectedTab, setSelectedTab] = useState(0);
+  const [selectedNode, setSelectedNode] = useState<NodeType | undefined>(
+    undefined
+  );
 
   const handleTabChange = (newTab: number) => {
     setSelectedTab(newTab);
   };
 
-  const findSelectedNode = () => {
+  useEffect(() => {
     const find = nodes.find((node) => node.selected);
-    return find;
-  };
+    setSelectedNode(find);
+  }, [nodes]);
 
   return (
     <Box ref={parentRef} sx={styles.container}>
@@ -54,8 +59,8 @@ const Sidebar = ({ open, nodes }) => {
         </Tabs>
         <Divider />
         <Box sx={styles.tabContent}>
-          {selectedTab === 0 && findSelectedNode() ? (
-            <Node node={findSelectedNode()} />
+          {selectedTab === 0 && selectedNode ? (
+            <Node node={selectedNode} />
           ) : selectedTab === 0 ? (
             <Box sx={styles.empty}>
               <Typography>No Node Selected</Typography>

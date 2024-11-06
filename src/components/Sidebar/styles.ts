@@ -1,6 +1,7 @@
 import { Theme } from "@mui/system/createTheme";
+import { Props } from "./types";
 
-const Styles = (theme: Theme, open) => ({
+const Styles = (theme: Theme, open: Props["open"]) => ({
   container: {
     height: "100%",
     position: "relative",

@@ -1,22 +1,23 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
 import ViewSidebarIcon from "@mui/icons-material/ViewSidebar";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
-import { Button, Tooltip } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { Props } from "./types";
 
 const Sidebar = ({
-  handleSidebarOpen,
-  sidebarOpen,
-  handleDarkMode,
   darkMode,
+  handleSidebarOpen,
+  handleDarkMode,
   handleClearStorage,
-}) => {
+}: Props) => {
   return (
     <AppBar position="relative">
       <Toolbar>

@@ -3,18 +3,11 @@ import { Box, Typography } from "@mui/material";
 import { Handle, NodeProps, Position } from "reactflow";
 import { useTheme } from "@mui/material/styles";
 import Styles from "./styles";
-
-type CustomProps = {
-  label: string;
-  notes: string;
-  bgColor: string;
-  color: string;
-  emoji?: string;
-};
+import { CustomProps } from "../../../../types";
 
 const CustomNode = ({
   selected,
-  data: { notes, bgColor = "#fff", color = "#000", label, emoji = undefined },
+  data: { bgColor = "#fff", color = "#000", label, emoji = "" },
 }: NodeProps<CustomProps>) => {
   const theme = useTheme();
   const styles = Styles(theme);

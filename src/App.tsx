@@ -1,20 +1,27 @@
-import React, { useState, useRef, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import CssBaseline from "@mui/material/CssBaseline";
-import { useNodesState, useEdgesState, Connection, addEdge } from "reactflow";
+import {
+  useNodesState,
+  useEdgesState,
+  Connection,
+  addEdge,
+  NodeChange,
+  EdgeChange,
+} from "reactflow";
 import { ReactFlowProvider } from "reactflow";
 import { Chart } from "./components/Chart";
 import { Box } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { useTheme } from "@mui/material/styles";
 import { Navbar } from "./components/Navbar";
 import { Sidebar } from "./components/Sidebar";
 import Styles from "./App.styles";
 import initialEdges from "./utils/initialEdges";
 import initialNodes from "./utils/initialNodes";
 import { CustomNode } from "./components/Chart/components/CustomNode";
+import { NodeTypes } from "./types";
 
-const nodeTypes = {
+const nodeTypes: NodeTypes = {
   customNode: CustomNode,
 };
 
@@ -33,6 +40,7 @@ function App() {
 
   const styles = Styles();
   const [sidebarOpen, setSidebarOpen] = useState(true);
+
   const handleSidebarOpen = () => {
     setSidebarOpen(!sidebarOpen);
   };
@@ -46,7 +54,7 @@ function App() {
   }, []);
 
   const handleEdgesChange = useCallback(
-    (changes) => {
+    (changes: EdgeChange[]) => {
       onEdgesChange(changes);
       localStorage.setItem("edges", JSON.stringify(edges));
     },
@@ -54,7 +62,7 @@ function App() {
   );
 
   const handleNodesChange = useCallback(
-    (changes) => {
+    (changes: NodeChange[]) => {
       onNodesChange(changes);
       localStorage.setItem("nodes", JSON.stringify(nodes));
     },
@@ -82,7 +90,6 @@ function App() {
         <ReactFlowProvider>
           <Box sx={styles.container}>
             <Navbar
-              sidebarOpen={sidebarOpen}
               handleSidebarOpen={handleSidebarOpen}
               handleDarkMode={handleDarkMode}
               darkMode={darkMode}

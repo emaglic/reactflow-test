@@ -1,7 +1,7 @@
 import { boxSizing } from "@mui/system";
 import { Theme } from "@mui/system/createTheme";
 
-const Styles = (theme: Theme, selected) => ({
+const Styles = (theme: Theme, selected: boolean | undefined) => ({
   container: {
     display: "flex",
     flexDirection: "column",
