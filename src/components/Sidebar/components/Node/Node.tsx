@@ -9,12 +9,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import ImageIcon from "@mui/icons-material/Image";
 import { useTheme } from "@mui/material/styles";
 import ColorLensIcon from "@mui/icons-material/ColorLens";
 import Styles from "./styles";
 import { useReactFlow } from "reactflow";
 import { useForm, Controller } from "react-hook-form";
 import { ColorPicker } from "../ColorPicker";
+import { EmojiPicker } from "../EmojiPicker";
 
 const Node = ({ node, handleTabChange }) => {
   const theme = useTheme();
@@ -23,10 +25,12 @@ const Node = ({ node, handleTabChange }) => {
   const [editMode, setEditMode] = useState(node.id ? false : true);
   const [colorPickerOpen, setColorPickerOpen] = useState(false);
   const [colorPickerType, setColorPickerType] = useState(undefined);
+  const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
 
   const defaultFormValues = {
     label: node.data.label,
     notes: node.data.notes || "",
+    emoji: node.data.emoji,
     bgColor: node.data.bgColor,
     color: node.data.color,
     xPos: node.position.x,
@@ -50,6 +54,13 @@ const Node = ({ node, handleTabChange }) => {
     setColorPickerOpen(true);
   };
 
+  const handleSelectEmoji = (imageUrl) => {
+    setValue("emoji", imageUrl, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
+
   const handleColorSelect = (color: string) => {
     setValue(colorPickerType, color, {
       shouldValidate: true,
@@ -69,11 +80,19 @@ const Node = ({ node, handleTabChange }) => {
     }
   };
 
-  const constructNodeData = ({ label, notes, bgColor, color, xPos, yPos }) => {
+  const constructNodeData = ({
+    label,
+    notes,
+    bgColor,
+    color,
+    xPos,
+    yPos,
+    emoji,
+  }) => {
     return {
       ...node,
       id: node.id || uuidv4(),
-      data: { ...node.data, label, notes, bgColor, color },
+      data: { ...node.data, label, notes, bgColor, color, emoji },
       selected: true,
       position: { ...node.position, x: Number(xPos), y: Number(yPos) },
     };
@@ -141,6 +160,50 @@ const Node = ({ node, handleTabChange }) => {
                 editMode && errors.label ? errors.label.message?.toString() : ""
               }
             />
+            <EmojiPicker
+              open={emojiPickerOpen}
+              onClose={() => {
+                setEmojiPickerOpen(false);
+              }}
+              onSelectIcon={handleSelectEmoji}
+            />
+
+            <Controller
+              name="emoji"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Emoji"
+                  fullWidth
+                  sx={styles.textField}
+                  disabled={!editMode}
+                  slotProps={{
+                    input: {
+                      endAdornment: (
+                        <InputAdornment
+                          position="end"
+                          sx={{ cursor: editMode ? "pointer" : "default" }}
+                          onClick={() => {
+                            if (editMode) setEmojiPickerOpen(true);
+                          }}
+                        >
+                          {getValues("emoji") ? (
+                            <img
+                              src={getValues("emoji")}
+                              style={{ width: "2rem", height: "2rem" }}
+                            />
+                          ) : (
+                            <ImageIcon />
+                          )}
+                        </InputAdornment>
+                      ),
+                    },
+                  }}
+                />
+              )}
+            />
+
             <Controller
               name="color"
               control={control}

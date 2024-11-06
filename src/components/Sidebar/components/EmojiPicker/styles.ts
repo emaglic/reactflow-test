@@ -1,20 +1,21 @@
 import { Theme } from "@mui/system/createTheme";
 
 const Styles = (theme: Theme) => ({
-  container: {
-    border: "1px solid #000",
-    padding: "0.25rem",
+  dialogContent: {
+    display: "grid",
+    gridTemplateRows: "1fr auto",
   },
-  content: {
+  selectedContent: {
     display: "flex",
     flexDirection: "row",
+
     alignItems: "center",
-    padding: "0 0.25rem",
+    marginTop: "1rem",
   },
-  emoji: {
-    width: "1rem",
-    height: "1rem",
-    marginRight: "0.25rem",
+  selectedEmoji: {
+    width: "3rem",
+    height: "3rem",
+    margin: "0.5rem",
   },
 });
 

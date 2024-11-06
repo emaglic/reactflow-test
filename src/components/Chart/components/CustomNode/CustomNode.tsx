@@ -9,15 +9,15 @@ type CustomProps = {
   notes: string;
   bgColor: string;
   color: string;
+  emoji?: string;
 };
 
 const CustomNode = ({
   selected,
-  data: { notes, bgColor = "#fff", color = "#000", label },
+  data: { notes, bgColor = "#fff", color = "#000", label, emoji = undefined },
 }: NodeProps<CustomProps>) => {
   const theme = useTheme();
   const styles = Styles(theme);
-
   return (
     <Box
       sx={{
@@ -31,7 +31,11 @@ const CustomNode = ({
         color: color,
       }}
     >
-      <Typography>{label}</Typography>
+      <Box sx={styles.content}>
+        {emoji && <img style={styles.emoji} src={emoji} />}
+        <Typography>{label}</Typography>
+      </Box>
+
       <Handle type="target" position={Position.Left} />
       <Handle type="source" position={Position.Right} />
     </Box>

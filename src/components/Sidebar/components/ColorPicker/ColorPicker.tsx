@@ -27,7 +27,7 @@ const ColorPicker = ({ open, onClose, onSelectColor }: ColorPickerProps) => {
   return (
     <Dialog onClose={onClose} open={open} maxWidth="sm" fullWidth>
       <DialogTitle>Select A Color</DialogTitle>
-      <DialogContent sx={{ padding: "1rem 1rem 0.5rem 1rem" }}>
+      <DialogContent sx={{ padding: "0.5rem 1rem 0.5rem 1rem !important" }}>
         <RCPPicker
           hideInput={["rgb", "hsv"]}
           color={color}
