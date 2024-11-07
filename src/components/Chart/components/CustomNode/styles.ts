@@ -1,6 +1,4 @@
-import { Theme } from "@mui/system/createTheme";
-
-const Styles = (theme: Theme) => ({
+const Styles = () => ({
   container: {
     border: "1px solid #000",
     padding: "0.25rem",

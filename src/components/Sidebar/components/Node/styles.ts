@@ -1,4 +1,3 @@
-import { boxSizing } from "@mui/system";
 import { Theme } from "@mui/system/createTheme";
 
 const Styles = (theme: Theme, selected: boolean | undefined) => ({

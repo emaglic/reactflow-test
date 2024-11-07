@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, Typography } from "@mui/material";
 import { Handle, NodeProps, Position } from "reactflow";
 import { useTheme } from "@mui/material/styles";
@@ -10,7 +9,7 @@ const CustomNode = ({
   data: { bgColor = "#fff", color = "#000", label, emoji = "" },
 }: NodeProps<CustomProps>) => {
   const theme = useTheme();
-  const styles = Styles(theme);
+  const styles = Styles();
   return (
     <Box
       sx={{

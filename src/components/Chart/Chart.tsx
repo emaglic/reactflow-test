@@ -1,5 +1,4 @@
-import React from "react";
-import ReactFlow, { MarkerType, Background, Controls } from "reactflow";
+import ReactFlow, { Background, Controls } from "reactflow";
 import { Props } from "./types";
 
 import "reactflow/dist/style.css";

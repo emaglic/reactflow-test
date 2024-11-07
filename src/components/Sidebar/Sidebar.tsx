@@ -1,5 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useTheme } from "@mui/material/styles";
+import { useState, useRef, useEffect } from "react";
 import { Box, Drawer, Tabs, Tab, Divider, Typography } from "@mui/material";
 import getNewNode from "../../utils/getNewNode";
 import { NodeList } from "./components/NodeList";
@@ -9,8 +8,7 @@ import { Props } from "./types";
 import { Node as NodeType } from "reactflow";
 
 const Sidebar = ({ open, nodes }: Props) => {
-  const theme = useTheme();
-  const styles = Styles(theme, open);
+  const styles = Styles(open);
   const parentRef = useRef(null);
 
   const [selectedTab, setSelectedTab] = useState(0);
@@ -49,7 +47,7 @@ const Sidebar = ({ open, nodes }: Props) => {
       >
         <Tabs
           value={selectedTab}
-          onChange={(evt, newTab) => {
+          onChange={(_, newTab) => {
             handleTabChange(newTab);
           }}
         >

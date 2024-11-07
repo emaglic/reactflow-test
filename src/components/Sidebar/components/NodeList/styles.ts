@@ -1,6 +1,4 @@
-import { Theme } from "@mui/system/createTheme";
-
-const Styles = (theme: Theme) => ({
+const Styles = () => ({
   container: {
     width: "100%",
     display: "flex",

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
 import CssBaseline from "@mui/material/CssBaseline";
 import {
@@ -6,8 +6,6 @@ import {
   useEdgesState,
   Connection,
   addEdge,
-  NodeChange,
-  EdgeChange,
   MarkerType,
 } from "reactflow";
 import { ReactFlowProvider } from "reactflow";

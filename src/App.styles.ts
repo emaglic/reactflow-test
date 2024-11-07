@@ -1,5 +1,3 @@
-import { Theme } from "@mui/system/createTheme";
-
 const Styles = () => ({
   container: {
     display: "grid",
