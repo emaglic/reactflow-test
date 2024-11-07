@@ -8,14 +8,19 @@ const Styles = (theme: Theme) => ({
   selectedContent: {
     display: "flex",
     flexDirection: "row",
-
     alignItems: "center",
     marginTop: "1rem",
+    borderRadius: "4px",
+    border: `1px solid ${theme.palette.divider}`,
   },
   selectedEmoji: {
-    width: "3rem",
-    height: "3rem",
-    margin: "0.5rem",
+    width: "4rem",
+    height: "4rem",
+    padding: "0.5rem",
+    backgroundColor: theme.palette.action.disabledBackground,
+  },
+  selectedText: {
+    marginLeft: "1rem",
   },
 });
 

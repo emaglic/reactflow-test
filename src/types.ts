@@ -1,4 +1,4 @@
-import { NodeProps } from "reactflow";
+import { NodeProps, EdgeProps } from "reactflow";
 
 export type CustomProps = {
   notes: string;
@@ -10,4 +10,8 @@ export type CustomProps = {
 
 export type NodeTypes = {
   customNode: ({ selected, data }: NodeProps<CustomProps>) => JSX.Element;
+};
+
+export type EdgeTypes = {
+  customEdge: (props: EdgeProps) => JSX.Element;
 };

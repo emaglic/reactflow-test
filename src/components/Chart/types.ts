@@ -1,5 +1,5 @@
 import { Node, Edge, OnEdgesChange, OnNodesChange, OnConnect } from "reactflow";
-import { NodeTypes } from "../../types";
+import { NodeTypes, EdgeTypes } from "../../types";
 
 export type Props = {
   nodes: Node[];
@@ -9,4 +9,5 @@ export type Props = {
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
   nodeTypes: NodeTypes;
+  edgeTypes: EdgeTypes;
 };

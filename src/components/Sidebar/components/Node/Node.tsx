@@ -107,14 +107,19 @@ const Node = ({ node, handleTabChange }: Props) => {
   const onUpdateNode = (formData: FormData) => {
     setNodes((prevNodes) => {
       return prevNodes.map((prevNode) => {
-        return prevNode.id === node.id ? constructNodeData(formData) : prevNode;
+        return prevNode.id === node.id
+          ? constructNodeData(formData)
+          : { ...prevNode, selected: false };
       });
     });
   };
 
   const onCreateNode = (formData: FormData) => {
     setNodes((prevNodes) => {
-      return [constructNodeData(formData), ...prevNodes];
+      return [
+        constructNodeData(formData),
+        ...prevNodes.map((prevNode) => ({ ...prevNode, selected: false })),
+      ];
     });
   };
 

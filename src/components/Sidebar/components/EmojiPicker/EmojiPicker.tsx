@@ -11,7 +11,7 @@ import {
 import "react-color-palette/css";
 import { useTheme } from "@mui/material/styles";
 import Styles from "./styles";
-import EmojiPickerReact, { EmojiClickData } from "emoji-picker-react";
+import EmojiPickerReact, { EmojiClickData, Theme } from "emoji-picker-react";
 import { Props } from "./types";
 
 const EmojiPicker = ({ open, onClose, onSelectIcon }: Props) => {
@@ -32,15 +32,20 @@ const EmojiPicker = ({ open, onClose, onSelectIcon }: Props) => {
       <DialogContent>
         <Box sx={styles.dialogContent}>
           <EmojiPickerReact
+            theme={theme.palette.mode === "dark" ? Theme.DARK : Theme.LIGHT}
             style={{ width: "100%" }}
             onEmojiClick={(emojiData) => {
               setEmoji(emojiData);
             }}
           />
-          <Box sx={styles.selectedContent}>
-            <img style={styles.selectedEmoji} src={emoji?.imageUrl} />
-            <Typography>{emoji?.names?.toString()}</Typography>
-          </Box>
+          {emoji && (
+            <Box sx={styles.selectedContent}>
+              <img style={styles.selectedEmoji} src={emoji?.imageUrl} />
+              <Typography sx={styles.selectedText}>
+                {emoji?.names?.toString()}
+              </Typography>
+            </Box>
+          )}
         </Box>
       </DialogContent>
       <DialogActions>
