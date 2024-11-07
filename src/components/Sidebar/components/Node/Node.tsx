@@ -121,7 +121,6 @@ const Node = ({ node, handleTabChange }: Props) => {
     });
   };
 
-  // Will only submit if no errors
   const onSubmit = (formData: FormData) => {
     if (node.id) {
       onUpdateNode(formData);

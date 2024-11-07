@@ -56,7 +56,8 @@ function App() {
 
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const [isReady, setIsReady] = useState(false);
+  const [reactFlowReady, setReactFlowReady] = useState(false);
+  const [darkModeReady, setDarkModeReady] = useState(false);
 
   const onConnect = useCallback((connection: Connection) => {
     const edge = {
@@ -82,15 +83,29 @@ function App() {
     const storedEdges = localStorage.getItem("edges");
     setNodes(storedNodes ? JSON.parse(storedNodes) : initialNodes);
     setEdges(storedEdges ? JSON.parse(storedEdges) : initialEdges);
-    setIsReady(true);
+    setReactFlowReady(true);
   }, [setNodes, setEdges]);
 
   useEffect(() => {
-    if (isReady) {
+    if (reactFlowReady) {
       localStorage.setItem("nodes", JSON.stringify(nodes));
       localStorage.setItem("edges", JSON.stringify(edges));
     }
   }, [nodes, edges]);
+
+  useEffect(() => {
+    const lsDarkMode = localStorage.getItem("darkMode");
+    if (lsDarkMode) {
+      setDarkMode(Boolean(parseInt(lsDarkMode)));
+    }
+    setDarkModeReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (darkModeReady) {
+      localStorage.setItem("darkMode", darkMode ? "1" : "0");
+    }
+  }, [darkMode]);
 
   return (
     <>

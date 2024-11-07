@@ -5,10 +5,13 @@ import {
   getBezierPath,
   useReactFlow,
 } from "reactflow";
+import { useTheme } from "@mui/material/styles";
 import { IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 export default function CustomEdge(props: EdgeProps) {
+  const theme = useTheme();
+
   const {
     id,
     sourceX,
@@ -21,7 +24,7 @@ export default function CustomEdge(props: EdgeProps) {
 
   const { setEdges } = useReactFlow();
 
-  const [labelX, labelY] = getBezierPath({
+  const [_, labelX, labelY] = getBezierPath({
     sourceX,
     sourceY,
     targetX,
@@ -32,20 +35,23 @@ export default function CustomEdge(props: EdgeProps) {
 
   return (
     <>
+      <BezierEdge {...props} />
       <EdgeLabelRenderer>
         <IconButton
           aria-label="delete"
           sx={{
             position: "absolute",
-            color: "red",
+            top: labelY,
+            left: labelX,
+            transform: "translate(-50%, -50%)",
+            pointerEvents: "all",
+            zIndex: 10,
+            color: theme.palette.error.main,
             width: "1rem",
             height: "1rem",
-            transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY}px)`,
-            pointerEvents: "all",
             cursor: "pointer",
           }}
           onClick={() => {
-            console.log("id: ", id);
             setEdges((prevEdges) => prevEdges.filter((edge) => edge.id !== id));
           }}
         >
@@ -57,7 +63,6 @@ export default function CustomEdge(props: EdgeProps) {
           />
         </IconButton>
       </EdgeLabelRenderer>
-      <BezierEdge {...props} />
     </>
   );
 }
